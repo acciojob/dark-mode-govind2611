@@ -1,23 +1,29 @@
-function toggleDarkMode() {
-			let toggle = document.getElementById("dark-mode-toggle");
-			let body = document.getElementsByTagName("body")[0];
-			if (toggle.checked) {
-				body.classList.add("dark-mode");
-				localStorage.setItem("dark-mode", "true");
-			} else {
-				body.classList.remove("dark-mode");
-				localStorage.setItem("dark-mode", "false");
-			}
-		}
+  function saveDarkModePreference() {
+            const darkModeCheckbox = document.getElementById('darkMode');
+            const isDarkMode = darkModeCheckbox.checked;
+            localStorage.setItem('darkMode', isDarkMode);
+        }
 
-		// Check for previous dark mode setting
-		function checkDarkMode() {
-			let darkMode = localStorage.getItem("dark-mode");
-			if (darkMode && darkMode === "true") {
-				let toggle = document.getElementById("dark-mode-toggle");
-				toggle.checked = true;
-				toggleDarkMode();
-			}
-		}
+        // Function to load the dark mode preference from Local Storage
+        function loadDarkModePreference() {
+            const darkModeCheckbox = document.getElementById('darkMode');
+            const isDarkMode = localStorage.getItem('darkMode');
 
-		checkDarkMode();
+            if (isDarkMode === 'true') {
+                darkModeCheckbox.checked = true;
+                document.body.classList.add('dark-mode');
+            } else {
+                darkModeCheckbox.checked = false;
+                document.body.classList.remove('dark-mode');
+            }
+        }
+
+        // Event listener for form submission
+        const darkModeForm = document.getElementById('darkModeForm');
+        darkModeForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            saveDarkModePreference();
+        });
+
+        // Load the dark mode preference on page load
+        loadDarkModePreference();
